@@ -1,35 +1,74 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import ROUTES from "./routes/routes";
+import MainContext from "./context/context";
+import { useState, useEffect } from "react";
+import axios from "axios";
+import { BASE_URL } from "./config/config";
+import { HelmetProvider } from "react-helmet-async";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "./App.css"
 
 function App() {
-  const [count, setCount] = useState(0)
+    const[loading, setLoading] = useState(true);
+    const[error, setError] = useState('false');
+    const [data, setData] = useState([]);
+    const router = createBrowserRouter(ROUTES);
+    const [basket, setBasket] = useState( localStorage.getItem("basket") ? JSON.parse(localStorage.getItem("basket")) : []);
+  useEffect(() => {
+    axios.get(BASE_URL).then((res) => {
+      setData([...res.data]);
+      console.log(res.data)
+    });
+  }, [data]);
 
-  return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+  useEffect(() => {
+    localStorage.setItem("basket", JSON.stringify(basket));
+  }, [basket]);
+
+  function deleteFromBasket(id) {
+    let target = basket.find((x) => x._id == id);
+    if (target.count > 1) {
+      target.count -= 1;
+      target.totalPrice -= target.price;
+      setBasket([...basket]);
+    } else {
+      setBasket([...basket.filter((x) => x._id != id)]);
+    }
+  }
+
+  function addToBasket(id) {
+    let basketItem = basket.find((x) => x._id == id);
+
+    if (!basketItem) {
+      let target = data.find((x) => x._id == id);
+    
+      let newItem = {
+        ...target,
+        count: 1,
+        totalPrice: target.price,
+      };
+      setBasket([...basket, newItem]);
+    } else {
+      basketItem.count += 1;
+      basketItem.totalPrice += basketItem.price;
+      setBasket([...basket]);
+    }
+  }
+
+
+    const contextData = {
+      data, setData, loading, setLoading, error, setError, addToBasket, deleteFromBasket, basket, setBasket,
+    }
+
+    return (
+        <>
+        <MainContext.Provider value={contextData}>
+                <HelmetProvider>
+                    <RouterProvider router={router} />
+                </HelmetProvider>
+            </MainContext.Provider>
+        </>
+    );
 }
 
-export default App
+export default App;

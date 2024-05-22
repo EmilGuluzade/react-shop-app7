@@ -1,0 +1,58 @@
+.site-blocks-cover {
+     background-size: cover;
+     background-repeat: no-repeat;
+     background-position: top;
+     background-position: center center; }
+     .site-blocks-cover.overlay {
+       position: relative; }
+       .site-blocks-cover.overlay:before {z-index: -1;
+         position: absolute;
+         content: "";
+         left: 0;
+         bottom: 0;
+         right: 0;
+         top: 0;
+         background: rgba(0, 0, 0, 0.4); }
+     .site-blocks-cover .player {
+       position: absolute;
+       bottom: -250px;
+       width: 100%; }
+     .site-blocks-cover, .site-blocks-cover > .container > .row {
+       min-height: 600px;
+       height: calc(100vh); }
+     .site-blocks-cover.inner-page-cover, .site-blocks-cover.inner-page-cover > .container > .row {
+       min-height: 400px;
+       height: calc(20vh); }
+     .site-blocks-cover h1 {
+       font-size: 5rem;
+       font-weight: 400;
+       color: #fff;
+       font-weight: 900; }
+       @media (max-width: 991.98px) {
+         .site-blocks-cover h1 {
+           font-size: 2rem; } }
+     .site-blocks-cover p {
+       color: white;
+       font-size: 1rem;
+       line-height: 1.5;
+       font-weight: 300; }
+       .site-blocks-cover p.lead {
+         font-size: 20px; }
+   
+   .bg-light {
+     background: #ccc; }
+
+     #date-countdown .countdown-block {
+          color: #b3b3b3; }
+        
+        #date-countdown .label {
+          font-size: 40px;
+          color: #46ddb0;
+          display: block; }
+        
+        #date-countdown .countdown-block {
+          background: #fff;
+          padding: 10px 20px;
+          margin: 10px;
+          display: inline-block;
+          border-radius: 7px; }
