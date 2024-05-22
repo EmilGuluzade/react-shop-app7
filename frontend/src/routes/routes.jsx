@@ -1,7 +1,6 @@
 import AdminRoot from "../pages/admin/AdminRoot"
 import Products from "../pages/admin/Products/Products"
 import Add from "../pages/admin/Add/Add"
-import Error from "../pages/Error/Error"
 import SiteRoot from "../pages/site/SiteRoot"
 import Home from "../pages/site/Home/Home"
 import Basket from "../pages/site/Basket/Basket"

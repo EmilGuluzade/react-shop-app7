@@ -1,12 +1,22 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { Formik } from "formik";
 import { Helmet } from "react-helmet-async";
+import * as Yup from "yup";
 import MainContext from "../../../context/context";
 import axios from "axios";
 import { BASE_URL } from "../../../config/config";
 
 const Add = () => {
   const { data, setData } = useContext(MainContext);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const validationSchema = Yup.object().shape({
+    title: Yup.string().required('Title is required'),
+    description: Yup.string().required('Description is required'),
+    image: Yup.string().url('Invalid URL').required('Image URL is required'),
+    price: Yup.number().required('Price is required').positive('Price must be a positive number'),
+    category: Yup.string().required('Category is required')
+  });
 
   return (
     <div>
@@ -15,7 +25,9 @@ const Add = () => {
       </Helmet>
       <Formik
         initialValues={{ image: "", title: "", price: "", description: "", category: "men" }}
+        validationSchema={validationSchema}
         onSubmit={(values, { resetForm }) => {
+          setIsSubmitting(true);
           axios
             .post(BASE_URL, {
               title: values.title,
@@ -27,9 +39,13 @@ const Add = () => {
             .then((res) => {
               setData([...data, res.data]);
               resetForm();
+              setIsSubmitting(false);
+              alert('Product added successfully!');
             })
             .catch((error) => {
               console.error("There was an error adding the product!", error);
+              setIsSubmitting(false);
+              alert('Failed to add product. Please try again.');
             });
         }}
       >
@@ -121,8 +137,8 @@ const Add = () => {
             </select>
             {errors.category && touched.category && <div className="text-danger">{errors.category}</div>}
 
-            <button className="btn btn-primary mt-3" type="submit">
-              ADD
+            <button className="btn btn-primary mt-3" type="submit" disabled={isSubmitting}>
+              {isSubmitting ? 'Adding...' : 'ADD'}
             </button>
           </form>
         )}

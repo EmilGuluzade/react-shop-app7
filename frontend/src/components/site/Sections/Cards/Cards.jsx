@@ -6,7 +6,7 @@ const Cards = () => {
 
      const {data,addToBasket}=useContext(MainContext)
   return (
-    <div class="site-section" id="products-section">
+    <div class="site-section p-5 " id="products-section">
       <div class="container">
         <div class="row mb-5 justify-content-center">
           <div class="col-md-6 text-center">
@@ -23,7 +23,7 @@ const Cards = () => {
         
           {
                data.map((item,index)=>(
-                    <div class="col-lg-4 col-md-6 mb-5">
+                    <div key={index} class="col-lg-4 col-md-6 mb-5">
                     <div class="product-item">
                       <figure style={{height:"250px"}}>
                         <img
@@ -33,20 +33,20 @@ const Cards = () => {
                           height="250px"
                         />
                       </figure>
-                      <div class="px-4">
+                      <div class="px-4 text-center ">
                         <h3>
-                          <a href="#">{item.title}</a>
+                          <Link to={`/detail/${item._id}`}>{item.title}</Link>
                         </h3>
-                        <div class="mb-3">
+                        <div class="mb-3 d-flex  gap-3 justify-content-center  ">
                           <span class="meta-icons mr-3">
-                            <a href="#" class="mr-2">
-                              <span class="icon-star text-warning"></span>
+                            <a  class="mr-2">
+                              <span class="icon-star text-warning"><i class="fa-solid fa-star"></i></span>
                             </a>{" "}
                             5.0
                           </span>
                           <span class="meta-icons wishlist">
-                            <a href="#" class="mr-2">
-                              <span class="icon-heart"></span>
+                            <a  class="mr-2">
+                              <span class="icon-heart"><i class="fa-solid fa-heart"></i></span>
                             </a>{" "}
                             29
                           </span>
@@ -54,8 +54,8 @@ const Cards = () => {
                         <p class="mb-4">
                         {item.category}
                         </p>
-                        <div className=" d-flex  justify-content-center ">
-                          <a href="#" onClick={()=>{
+                        <div className=" d-flex  justify-content-center gap-3 ">
+                          <a  onClick={()=>{
                               addToBasket(item._id)
                           }} class="btn btn-black mr-1 rounded-0">
                             Cart
