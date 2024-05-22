@@ -25,11 +25,12 @@ const Cards = () => {
                data.map((item,index)=>(
                     <div class="col-lg-4 col-md-6 mb-5">
                     <div class="product-item">
-                      <figure>
+                      <figure style={{height:"250px"}}>
                         <img
                           src={item.image}
                           alt="Image"
-                          class="img-fluid"
+                          class="img-fluid h-100  w-100 "
+                          height="250px"
                         />
                       </figure>
                       <div class="px-4">
@@ -53,7 +54,7 @@ const Cards = () => {
                         <p class="mb-4">
                         {item.category}
                         </p>
-                        <div>
+                        <div className=" d-flex  justify-content-center ">
                           <a href="#" onClick={()=>{
                               addToBasket(item._id)
                           }} class="btn btn-black mr-1 rounded-0">

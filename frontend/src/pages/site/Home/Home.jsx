@@ -11,9 +11,9 @@ const Home = () => {
             <Helmet>
                 <title>Home</title>
             </Helmet>
-           
+            <Cards></Cards>
            <Summer></Summer>
-           <Cards></Cards>
+          
     </>
     )
 }
